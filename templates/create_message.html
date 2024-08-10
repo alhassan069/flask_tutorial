@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>
+        {% block title %}Create Message{% endblock %}
+        
+    </h1>
+    <div class="container mt-3">
+        <form method="post">
+            <div class="mb-3 row">
+                <label
+                    for="title"
+                    class="col-4 col-form-label"
+                    >Title</label
+                >
+                <div
+                    class="col-8"
+                >
+                    <input
+                        type="text"
+                        class="form-control"
+                        name="title"
+                        id="title"
+                        placeholder="Title"
+                        value="{{ request.form['title'] }}"
+                    />
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="content" class="form-label">Message Content</label>
+                <textarea class="form-control" name="content" id="content" rows="3" placeholder="Mesage Content" minlength="3">{{request.form['content']}}</textarea>
+            </div>
+            
+            <div class="mb-3 row">
+                <div class="offset-sm-4 col-sm-8">
+                    <button type="submit" class="btn btn-primary">
+                        Submit
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+    
+{% endblock %}

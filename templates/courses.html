@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>
+    {% block title %}Courses{% endblock %}
+
+</h1>
+<a class="nav-link" href="{{ url_for('course_add') }}">Add a new Course</a>
+{% for course in courses %}
+    <h6>title: {{course.title}}</h6>
+    <p>description: {{course.description}}</p>
+    <p>price: {{course.price}}</p>
+    {% if course.available %}
+        <p>Available</p>
+    {% else %}
+        <p>Not Available</p>
+    {% endif %}
+    <p>level: <i>{{course.level}}</i></p>
+{% endfor %}
+{% endblock %}

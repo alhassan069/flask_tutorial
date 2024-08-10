@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+    <h1>{% block title %}Create course{% endblock %}</h1>
+    <form action="/dbcourse/create" method="post">
+        <div class="mb-3">
+            <label for=title"" class="form-label">Title</label>
+            <input type="text" name="title" id="title" class="form-control" placeholder="Post Title"
+                aria-describedby="helpId" value="{{ request.form['title'] }}" />
+            <small id="helpId" class="text-muted">Enter your Title</small>
+        </div>
+        <div class="mb-3">
+            <label for=content"" class="form-label">Content</label>
+            <input type="text" name="content" id="content" class="form-control" placeholder="Post Content"
+                aria-describedby="helpId" value="{{ request.form['content'] }}" />
+            <small id="helpId" class="text-muted">Enter your Content</small>
+        </div>
+        <button
+            type="submit"
+            class="btn btn-primary"
+        >
+            Submit
+        </button>
+        
+    </form>
+
+{% endblock %}

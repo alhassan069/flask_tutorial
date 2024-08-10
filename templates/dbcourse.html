@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1>{% block title %} Posts {% endblock %} </h1>
+    <a href="{{ url_for('dbcourse_create') }}">Add a new post</a>
+    {% for post in posts %}
+    <p>
+      {{post.id}}
+    </p>
+    <p>
+      {{post.created}}
+    </p>
+    <p>
+      {{post.title}}
+    </p>
+    <p>
+      {{post.content}}
+    </p>
+        
+    {% endfor %}
+{% endblock %}
