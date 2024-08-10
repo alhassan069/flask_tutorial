@@ -141,7 +141,7 @@ def course_add():
         return redirect(url_for('courses'))
     return render_template('course_add.html', form=form)
 
-
+# Lesson 6 CRUD using sqlite database
 def get_db_connection():
     connection = sqlite3.connect('database.db')
     connection.row_factory = sqlite3.Row
@@ -172,7 +172,44 @@ def dbcourse_create():
             return redirect(url_for('dbcourse'))
     return render_template('dbcourse_create.html')
 
+def dbcourse_getpost(post_id):
+    conn = get_db_connection()
+    post = conn.execute('SELECT * FROM posts WHERE id = ?', (post_id,)).fetchone()
+    conn.close()
 
+    if post is None:
+        abort(404)
+    return post
+
+@app.route('/dbcourse/edit/<int:id>', methods=('GET', 'POST'))
+def dbcourse_editpost(id):
+    post = dbcourse_getpost(id)
+
+    if request.method == 'POST':
+        title = request.form['title']
+        content = request.form['content']
+
+        if not title:
+            flash('Title is required')
+        elif not content:
+            flash('Content is required')
+        else:
+            conn = get_db_connection()
+            conn.execute('UPDATE posts SET title = ?, content = ? WHERE id = ?', (title, content, id))
+            conn.commit()
+            conn.close()
+            return redirect(url_for('dbcourse'))
+    return render_template('dbcourse_edit.html', post=post)
+
+@app.route('/dbcourse/delete/<int:id>', methods=['POST'])
+def dbcourse_deletepost(id):
+    post = dbcourse_getpost(id)
+    conn = get_db_connection()
+    conn.execute('DELETE FROM posts WHERE id = ?', (id,))
+    conn.commit()
+    conn.close()
+    flash('"{}" was successfully deleted!'.format(post['title']))
+    return redirect(url_for('dbcourse'))
 
 if __name__ == "__main__":
     app.run(debug=True)
