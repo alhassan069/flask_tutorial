@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1>{% block title %}Edit {{student.firstname}} {{student.lastname}}'s Details {% endblock %}</h1>
+    <form method="post">
+        <div class="mb-3">
+            <label for="" class="form-label">Firstname</label>
+            <input
+                type="text"
+                class="form-control"
+                name="firstname"
+                id="firstname"
+                aria-describedby="helpId"
+                placeholder="Firstname"
+                value="{{student.firstname}}"
+            />
+            <small id="helpId" class="form-text text-muted">Enter the first name</small>
+        </div>
+        <div class="mb-3">
+            <label for="" class="form-label">Lastname</label>
+            <input
+                type="text"
+                class="form-control"
+                name="lastname"
+                id="lastname"
+                aria-describedby="helpId"
+                placeholder="Lastname"
+                value="{{student.lastname}}"
+            />
+            <small id="helpId" class="form-text text-muted">Enter the last name</small>
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input
+                type="email"
+                class="form-control"
+                name="email"
+                id="email"
+                aria-describedby="emailHelpId"
+                placeholder="abc@mail.com"
+                value="{{student.email}}"
+            />
+            <small id="emailHelpId" class="form-text text-muted"
+                >Enter your email id</small
+            >
+        </div>
+        <div class="mb-3">
+            <label for="age" class="form-label">Age</label>
+            <input
+                type="number"
+                class="form-control"
+                name="age"
+                id="age"
+                aria-describedby="helpId"
+                placeholder="Age"
+                value="{{student.age}}"
+            />
+            <small id="helpId" class="form-text text-muted">Enter your Age</small>
+        </div>
+        <div class="mb-3">
+            <label for="bio" class="form-label">Bio</label>
+            <textarea class="form-control" name="bio" id="bio" rows="10">{{student.bio}}</textarea>
+        </div>
+        
+        <button
+            type="submit"
+            class="btn btn-primary"
+        >
+            Submit
+        </button>
+        
+        
+    </form>
+{% endblock %}

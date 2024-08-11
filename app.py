@@ -5,7 +5,8 @@ from flask import Flask, abort, render_template, request, url_for, flash, redire
 import datetime 
 from forms import CourseForm
 import sqlite3
-
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.sql import func
 
 app = Flask(__name__)
 
@@ -210,6 +211,78 @@ def dbcourse_deletepost(id):
     conn.close()
     flash('"{}" was successfully deleted!'.format(post['title']))
     return redirect(url_for('dbcourse'))
+
+# LESSON 7 CRUD using Flask-SQLAlchemy
+
+basedir = os.path.abspath(os.path.dirname(__file__))
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'mydatabase.db')
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db = SQLAlchemy(app)
+
+class Student(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    firstname = db.Column(db.String(100), nullable = False)
+    lastname = db.Column(db.String(100), nullable = False)
+    email = db.Column(db.String(100), unique = True, nullable = False)
+    age = db.Column(db.Integer)
+    created_at = db.Column(db.DateTime(timezone = True), server_default = func.now())
+    bio = db.Column(db.Text)
+
+    def __repr__(self) -> str:
+        return f'<Student {self.firstname}'
+    
+
+@app.route('/students')
+def students():
+    students_all = Student.query.all()
+    return render_template('students.html', students=students_all)
+
+@app.route('/student/<int:student_id>')
+def student(student_id):
+    student_one = Student.query.get_or_404(student_id)
+    return render_template('student.html', student=student_one) 
+
+@app.route('/student/add', methods=['GET','POST'])
+def student_add():
+    if request.method == 'POST':
+        firstname = request.form['firstname']
+        lastname = request.form['lastname']
+        email = request.form['email']
+        age = int(request.form['age'])
+        bio = request.form['bio']
+        student_one = Student(firstname=firstname, lastname=lastname, email=email,age=age,bio=bio)
+        db.session.add(student_one)
+        db.session.commit()
+        return redirect(url_for('students'))
+    return render_template('student_add.html') 
+
+@app.route('/student/edit/<int:student_id>/', methods=['GET','POST'])
+def student_edit(student_id):
+    student_one = Student.query.get_or_404(student_id)
+    if request.method == 'POST':
+        firstname = request.form['firstname']
+        lastname = request.form['lastname']
+        email = request.form['email']
+        age = int(request.form['age'])
+        bio = request.form['bio']
+        
+        student_one.firstname = firstname
+        student_one.lastname = lastname
+        student_one.email = email
+        student_one.age = age
+        student_one.bio = bio
+        
+        db.session.add(student_one)
+        db.session.commit()
+        return redirect(url_for('students'))
+    return render_template('student_edit.html', student=student_one) 
+
+@app.route('/student/delete/<int:student_id>/', methods=["POST"])
+def student_delete(student_id):
+    student_one = Student.query.get_or_404(student_id)
+    db.session.delete(student_one)
+    db.session.commit()
+    return redirect(url_for('students'))
 
 if __name__ == "__main__":
     app.run(debug=True)

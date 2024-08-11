@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1>{% block title %} Student {% endblock %} </h1>
+    <div
+        class="table-responsive mt-3"
+    >
+        <table
+            class="table table-primary"
+        >
+            <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Firstname</th>
+                    <th scope="col">Lastname</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Age</th>
+                    <th scope="col">Bio</th>
+                    <th scope="col">Created</th>
+                    <th scope="col">Edit</th>
+                    <th scope="col">Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        {{student.id}}
+                    </td>
+                    <td>
+                        {{student.firstname}}
+                    </td>
+                    <td>
+                        {{student.lastname}}
+                    </td>
+                    <td>
+                        {{student.email}}
+                    </td>
+                    <td>
+                        {{student.age}}
+                    </td>
+                    <td>
+                        {{student.bio}}
+                    </td>
+                    <td>
+                        {{student.created_at}}
+                    </td>
+                    <td>
+                        <a
+                            name=""
+                            id=""
+                            class="btn btn-primary"
+                            href="{{ url_for('student_edit', student_id= student.id) }}"
+                            role="button"
+                            >Edit</a
+                        >
+                        
+                    </td>
+                    <td>
+                        <form action="{{ url_for('student_delete', student_id= student.id) }}" method="post">
+                            <input class="btn btn-danger" type="submit" value="Delete Student" onclick="return confirm('Are you sure you want to delete this entry?')">
+                        </form>
+                        
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+   
+{% endblock %}

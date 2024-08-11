@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1>{% block title %}Add Student{% endblock %}</h1>
+    <form action="/student/add" method="post">
+        <div class="mb-3">
+            <label for="" class="form-label">Firstname</label>
+            <input
+                type="text"
+                class="form-control"
+                name="firstname"
+                id="firstname"
+                aria-describedby="helpId"
+                placeholder="Firstname"
+            />
+            <small id="helpId" class="form-text text-muted">Enter the first name</small>
+        </div>
+        <div class="mb-3">
+            <label for="" class="form-label">Lastname</label>
+            <input
+                type="text"
+                class="form-control"
+                name="lastname"
+                id="lastname"
+                aria-describedby="helpId"
+                placeholder="Lastname"
+            />
+            <small id="helpId" class="form-text text-muted">Enter the last name</small>
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input
+                type="email"
+                class="form-control"
+                name="email"
+                id="email"
+                aria-describedby="emailHelpId"
+                placeholder="abc@mail.com"
+            />
+            <small id="emailHelpId" class="form-text text-muted"
+                >Enter your email id</small
+            >
+        </div>
+        <div class="mb-3">
+            <label for="age" class="form-label">Age</label>
+            <input
+                type="number"
+                class="form-control"
+                name="age"
+                id="age"
+                aria-describedby="helpId"
+                placeholder="Age"
+            />
+            <small id="helpId" class="form-text text-muted">Enter your Age</small>
+        </div>
+        <div class="mb-3">
+            <label for="bio" class="form-label">Bio</label>
+            <textarea class="form-control" name="bio" id="bio" rows="3"></textarea>
+        </div>
+        
+        <button
+            type="submit"
+            class="btn btn-primary"
+        >
+            Submit
+        </button>
+        
+        
+    </form>
+{% endblock %}
